@@ -1,3 +1,4 @@
-labels.npy
-mfcc_features.npy
+normalized_mfcc_features.npy
+normalized_spectral_centroid.npy
+normalized_zero_crossing_rate.npy
 README.md
