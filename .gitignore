@@ -2,3 +2,6 @@ normalized_mfcc_features.npy
 normalized_spectral_centroid.npy
 normalized_zero_crossing_rate.npy
 README.md
+/fma_metadata
+/fma_small
+/fma_small1
