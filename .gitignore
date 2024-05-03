@@ -5,3 +5,6 @@ README.md
 /fma_metadata
 /fma_small
 /fma_small1
+/cache
+task.ipynb
+labels.npy
