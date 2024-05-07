@@ -12,3 +12,11 @@ labels.npy
 Model_Train.ipynb
 labels1.txt
 Nearpy.py
+/GMM_model
+labels1.txt 
+/LSH_model 
+modeltrain.py 
+normalized_features_dict.npy
+test.py 
+
+
