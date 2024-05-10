@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading Page</title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .gif-room {
+            display: flex;
+            justify-items: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="gif-room">
+    <img src="{{ url_for('static', filename='images/loading.gif') }}" alt="Loading GIF" width="100%" height="100%">
+</div>
+</body>
+</html>

@@ -18,5 +18,8 @@ labels1.txt
 modeltrain.py 
 normalized_features_dict.npy
 test.py 
+test.ipynb
+LSH_script.py
+GMM_script.py
 
 

@@ -55,7 +55,7 @@ lsh = BucketedRandomProjectionLSH(inputCol="scaled_features", outputCol="hashes"
 # Fit the LSH model
 model = lsh.fit(df)
 
-# Displaying the query song
+# Query song
 query_song = random.choice(df.select("features").collect())[0]
 
 # Create a Row object with a "features" column
