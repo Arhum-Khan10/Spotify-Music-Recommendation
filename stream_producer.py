@@ -1,8 +1,8 @@
-from kafka import KafkaProducer
-import json
-import time
 import os
+import time
+import json
 import logging
+from kafka import KafkaProducer
 
 # Set up basic configuration for logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
@@ -14,7 +14,7 @@ producer = KafkaProducer(
 )
 
 # Directory containing the songs
-songs_directory = '/home/arhum/Downloads/fma_small1/000/'
+songs_directory = '/home/aaqib/Downloads/BDA-Project/BDA-Project/fma_small1/000/'
 
 def send_songs_to_kafka():
     for filename in os.listdir(songs_directory):
