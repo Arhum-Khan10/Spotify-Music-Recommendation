@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    background-color: #000;
+    padding: 10px 20px;
+}
+
+.spotify-logo {
+    height: 40px;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.album-cover img {
+    height: 200px;
+}
+
+.song-details-container {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.song-list {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.song-list th, .song-list td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: left;
+}
+
+.song-list th {
+    background-color: #282828;
+}
+
+.song-list tr:hover {
+    background-color: #333;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #181818;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.song-controls button {
+    background-color: #1db954;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.song-controls button:hover {
+    background-color: #1ed760;
+}
+
+.now-playing {
+    padding: 10px;
+}
+
+.now-playing marquee {
+    font-size: 16px;
+    color: #1db954;
+}
