@@ -3,9 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Recommendations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #040404;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #1DB954;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 36px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        li {
+            background-color: #282828;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        li:hover {
+            background-color: #212121;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        a:hover {
+            color: #1db954;
+        }
+    </style>
 </head>
 <body>
-    <h1>Nearest Neighbors</h1>
+    <h1>Top Recommend Songs:</h1>
     <ul>
         {% for neighbor_file in nearest_neighbor_files %}
             <li>{{ neighbor_file }}</li>
