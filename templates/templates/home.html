@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Play Song</title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .button {
+            background-color: #1DB954; /* Spotify Green */
+            border: none;
+            color: black; /* Black text */
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 50px; /* Make the button round */
+            transition: transform 0.3s; /* Add animation */
+        }
+
+        .button:hover {
+            transform: scale(1.1); /* Scale the button on hover */
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Play Song</h1>
+    <a href="/play_song" class="button">Play Song</a>
+    <audio id="audioPlayer" controls>
+        <source src="/static/audio/000002.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</body>
+</html>

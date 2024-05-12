@@ -1,7 +1,8 @@
-from flask import Flask, Response
-from kafka import KafkaConsumer
-import json
 import os
+import json
+from kafka import KafkaConsumer
+from flask import Flask, Response
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -22,8 +23,12 @@ def stream_audio(file_path):
 
 @app.route('/play_song')
 def play_song():
-    file_path = os.path.join('/home/arhum/Downloads/fma_small1/000/', '000002.mp3')
+    file_path = os.path.join('/home/aaqib/Downloads/BDA-Project/BDA-Project/fma_small1/000/', '000002.mp3')
     return stream_audio(file_path)
+
+@app.route('/')
+def loading():
+    return render_template('loading.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
