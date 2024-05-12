@@ -2,41 +2,104 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify Clone</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
+    <title>Audio Files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #1db954;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #1db954;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #1db954;
+            color: #fff;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #222;
+        }
+
+        tr:hover {
+            background-color: #333;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #1db954;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #22a05b;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        a:hover {
+            color: #1db954;
+        }
+    </style>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="container">
-                <a href="#" class="logo"><img src="images/spotify_logo.png" alt="Spotify Logo"></a>
-                <ul class="nav-links">
-                    <li><a href="#">Premium</a></li>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">Download</a></li>
-                    <li><a href="#">|</a></li>
-                    <li><a href="#">Sign Up</a></li>
-                    <li><a href="#">Log In</a></li>
-                </ul>
-            </div>
-        </nav>
-        <div class="hero">
-            <div class="container">
-                <h1>Music for everyone.</h1>
-                <p>Millions of songs. No credit card needed.</p>
-                <button class="cta-button">Get Spotify Free</button>
-            </div>
-        </div>
-    </header>
-    <main>
-        <!-- Song cards will be dynamically generated here -->
-    </main>
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Spotify Clone. All rights reserved.</p>
-        </div>
-    </footer>
-    <script src="script.js"></script>
+    <h1>Spotify</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Track Title</th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for audio_file in audio_files %}
+                <tr>
+                    <td>{{ audio_file['track_title'] }}</td>
+                    <td>{{ audio_file['artist_name'] }}</td>
+                    <td>{{ audio_file['album_title'] }}</td>
+                    <td>
+                        <a href="{{ url_for('play_audio', audio_path=audio_file['relative_path']) }}">
+                            <button>Play</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Recommendation button -->
+    <button class="recommendation-button" onclick="redirectToRecommendationPage()" style="position: absolute; top: 20px; right: 20px;">Recommendation System</button>
+
+    <script>
+        function redirectToRecommendationPage() {
+            // Redirect to another HTML page
+            window.location.href = "/recommendation";
+        }
+    </script>
 </body>
 </html>

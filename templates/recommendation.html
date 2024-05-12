@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommendations</title>
+</head>
+<body>
+    <h1>Nearest Neighbors</h1>
+    <ul>
+        {% for neighbor_file in nearest_neighbor_files %}
+            <li>{{ neighbor_file }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
