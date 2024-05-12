@@ -1,24 +1,24 @@
-from flask import Flask, Response, render_template, redirect, url_for
 import os
-import pandas as pd
-from pyspark.sql import SparkSession
-from pyspark.ml.feature import MinMaxScaler
-from pyspark.ml.linalg import Vectors, VectorUDT
-from pyspark.sql.types import DoubleType
-from sklearn.neighbors import NearestNeighbors
-from pyspark.sql.functions import udf, col, array
-from pyspark.sql import Row
 import numpy as np
+import pandas as pd
+from pyspark.sql import Row
+from pyspark.sql import SparkSession
+from pyspark.sql.types import DoubleType
+from pyspark.ml.feature import MinMaxScaler
+from sklearn.neighbors import NearestNeighbors
+from pyspark.ml.linalg import Vectors, VectorUDT
+from pyspark.sql.functions import udf, col, array
+from flask import Flask, Response, render_template, redirect, url_for
 
 app = Flask(__name__)
 
 base_audio_dir = '/home/aaqib/Downloads/BDA-Project/BDA-Project/fma_small1'
 metadata_file = 'fma_metadata/raw_tracks.csv'
 
-# Load metadata from CSV file
+# Loading metadata from CSV file
 metadata_df = pd.read_csv(metadata_file)
 
-# Function to stream audio file
+# Function to stream audio files
 def stream_audio(file_path):
     def generate():
         with open(file_path, 'rb') as audio_file:
@@ -76,10 +76,9 @@ def flatten_and_mean(features):
             else:
                 yield item
 
-    # Convert the potentially deeply nested list into a flat list of numbers
+    # Flattening the features list
     flattened = list(flatten(features))
 
-    # Check if the flattened list is empty
     if not flattened:
         return 0.0
 
