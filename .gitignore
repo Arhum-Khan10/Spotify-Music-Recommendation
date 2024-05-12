@@ -10,3 +10,17 @@ labels1.txt
 mfcc_features.npy
 spectral_centroid.npy
 zero_crossing_rate.npy
+labels.npy
+/cache_directory
+Model_Train.ipynb
+labels1.txt
+Nearpy.py
+/GMM_model
+labels1.txt 
+/LSH_model 
+modeltrain.py 
+normalized_features_dict.npy
+test.py 
+test.ipynb
+LSH_script.py
+GMM_script.py
