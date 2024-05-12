@@ -10,8 +10,10 @@ from pyspark.sql.functions import udf, col, array
 from pyspark.sql import Row
 import numpy as np
 
+# Initialize Flask app
 app = Flask(__name__)
 
+# Define the base audio directory and metadata file
 base_audio_dir = '/home/aaqib/Downloads/BDA-Project/BDA-Project/fma_small1'
 metadata_file = 'fma_metadata/raw_tracks.csv'
 
@@ -29,6 +31,7 @@ def stream_audio(file_path):
                 yield audio_chunk
 
     return Response(generate(), mimetype='audio/mpeg')
+
 
 @app.route('/')
 def list_audio_files():
@@ -54,19 +57,21 @@ def list_audio_files():
 
     return render_template('index.html', audio_files=audio_files)
 
+# Route to play audio file
 @app.route('/play/<path:audio_path>')
 def play_audio(audio_path):
     file_path = os.path.join(base_audio_dir, audio_path)
     return stream_audio(file_path)
 
-@app.route('/laoding')
+
+# Route to recommend similar songs
+@app.route('/loading')
 def loading():
     return render_template('loading.html')
 
+
 # Define a UDF to flatten and calculate mean
 def flatten_and_mean(features):
-    from itertools import chain
-
     def flatten(lst):
         for item in lst:
             if isinstance(item, list):
@@ -74,10 +79,8 @@ def flatten_and_mean(features):
             else:
                 yield item
 
-    # Convert the potentially deeply nested list into a flat list of numbers
+    # Convert the features to a flattened list
     flattened = list(flatten(features))
-
-    # Check if the flattened list is empty
     if not flattened:
         return 0.0
 
@@ -86,30 +89,36 @@ def flatten_and_mean(features):
 
 get_mean_udf = udf(flatten_and_mean, DoubleType())
 
+# Route to recommend similar songs and display recommendations
 @app.route('/recommendation', defaults={'audio_path': None})
 @app.route('/recommendation/<audio_path>')
 def recommendation(audio_path):
-    print(f"recommendation function called with audio_path: {audio_path}")
+    print(f"Recommendation function called with audio_path: {audio_path}")
     song_name = os.path.splitext(os.path.basename(audio_path))[0] + '.mp3'
 
+    # Initialize Spark session
     spark = SparkSession.builder \
         .appName("KNN Music Recommendations") \
         .config("spark.jars.packages", "org.mongodb.spark:mongo-spark-connector_2.12:3.0.1") \
         .getOrCreate()
 
+    # Load the song features from MongoDB and preprocess the data
     df = spark.read.format("mongo").option("uri", "mongodb://localhost:27017/song_features.features").load()
     df = df.withColumn("features", array("spectral_centroid", "mfcc", "zero_crossing_rate"))
     df = df.dropna(subset=["features"])
     df = df.withColumn("mean_features", get_mean_udf(col("features")))
 
+    # Convert the mean features to a vector and scale the features
     to_vector_udf = udf(lambda x: Vectors.dense([x]), VectorUDT())
     df = df.withColumn("features", to_vector_udf("mean_features"))
     df = df.dropna(subset=["features"])
 
+    # Scale the features
     scaler = MinMaxScaler(inputCol="features", outputCol="scaled_features")
     scaler_model = scaler.fit(df)
     df = scaler_model.transform(df)
 
+    # Query the song features
     filtered_df = df.filter(df.file == song_name).select("scaled_features").collect()
     if filtered_df:
         query_song = filtered_df[0][0]
@@ -117,15 +126,18 @@ def recommendation(audio_path):
         print(f"No song found with name {song_name}")
         query_song = df.select("scaled_features").collect()[0][0]
 
+    # Find the nearest neighbors
     query_song_row = Row(features=query_song)
     query_song_df = spark.createDataFrame([query_song_row])
     transformed_query_song_df = scaler_model.transform(query_song_df)
     query_song_vector = query_song_df.first().features
 
+    # Fit a KNN model and find the nearest neighbors
     features_array = np.array(df.select("scaled_features").rdd.map(lambda row: row.scaled_features.toArray()).collect())
     knn = NearestNeighbors(n_neighbors=5, algorithm='auto')
     knn.fit(features_array)
 
+    # Find the nearest neighbors
     distances, indices = knn.kneighbors([query_song_vector.toArray()])
     nearest_neighbor_files = [df.select("file").collect()[i][0] for i in indices[0]]
 
