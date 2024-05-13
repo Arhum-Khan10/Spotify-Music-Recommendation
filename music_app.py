@@ -1,24 +1,24 @@
-from flask import Flask, Response, render_template, redirect, url_for
 import os
+import pickle
+import numpy as np
 import pandas as pd
+from pyspark.sql import Row
 from pyspark.sql import SparkSession
+from pyspark.sql.types import DoubleType
 from pyspark.ml.feature import MinMaxScaler
 from pyspark.ml.linalg import Vectors, VectorUDT
-from pyspark.sql.types import DoubleType
 from pyspark.sql.functions import udf, col, array
-from pyspark.sql import Row
-import numpy as np
-import pickle
+from flask import Flask, Response, render_template, redirect, url_for
+
 
 app = Flask(__name__)
 
 base_audio_dir = '/home/aaqib/Downloads/BDA-Project/BDA-Project/fma_small1'
 metadata_file = 'fma_metadata/raw_tracks.csv'
 
-# Load metadata from CSV file
 metadata_df = pd.read_csv(metadata_file)
 
-# Load pre-trained nearest neighbors model
+# Loading the model
 with open('model.pkl', 'rb') as f:
     knn = pickle.load(f)
 
