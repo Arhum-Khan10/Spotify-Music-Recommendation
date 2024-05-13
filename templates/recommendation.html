@@ -53,7 +53,13 @@
     <h1>Top Recommend Songs:</h1>
     <ul>
         {% for neighbor_file in nearest_neighbor_files %}
-            <li>{{ neighbor_file }}</li>
+            <li>
+                {{ neighbor_file }}
+                <audio controls>
+                    <source src="{{ url_for('play_audio', audio_path=neighbor_file) }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </li>
         {% endfor %}
     </ul>
 </body>
