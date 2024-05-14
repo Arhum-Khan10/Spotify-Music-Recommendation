@@ -104,7 +104,7 @@ def recommendation(audio_path):
         .config("spark.jars.packages", "org.mongodb.spark:mongo-spark-connector_2.12:3.0.1") \
         .getOrCreate()
 
-    df = spark.read.format("mongo").option("uri", "mongodb://localhost:27017/music_features5.features5").load()
+    df = spark.read.format("mongo").option("uri", "mongodb://localhost:27017/song_features.features").load()
     df = df.withColumn("features", array("spectral_centroid", "mfcc", "zero_crossing_rate"))
     df = df.dropna(subset=["features"])
     df = df.withColumn("mean_features", get_mean_udf(col("features")))
